@@ -29,3 +29,10 @@ class RandomForest:
         # Use majority voting to get the final predictions
         ensemble_predictions = np.apply_along_axis(lambda x: np.bincount(x).argmax(), axis=0, arr=tree_predictions)
         return ensemble_predictions
+
+    def predict_proba(self, X):
+        # Make predictions for each tree and aggregate the results
+        tree_predictions = np.array([tree.predict(X) for tree in self.trees])
+        # Use majority voting to get the final predictions
+        ensemble_predictions = np.apply_along_axis(lambda x: np.mean(x), axis=0, arr=tree_predictions)
+        return ensemble_predictions
